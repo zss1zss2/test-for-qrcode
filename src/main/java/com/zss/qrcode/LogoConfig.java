@@ -2,18 +2,20 @@ package com.zss.qrcode;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 @Configuration
 public class LogoConfig {
 
+
+    private static final String path = "templates/test.jpg";
 
     public BufferedImage LogoMatrix(BufferedImage matrixImage) throws IOException {
 
@@ -26,7 +28,8 @@ public class LogoConfig {
         /**
          * 读取Logo图片
          */
-        BufferedImage logo = ImageIO.read(new File("D:\\test1.jpg"));
+        File file = new ClassPathResource(path).getFile();
+        BufferedImage logo = ImageIO.read(file);
         g2.drawImage(logo, matrixWidth / 5 * 2, matrixHeigh / 5 * 2, matrixWidth / 5, matrixHeigh / 5, null);//绘制
         BasicStroke stroke = new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
         g2.setStroke(stroke);// 设置笔画对象
@@ -45,4 +48,6 @@ public class LogoConfig {
         return matrixImage;
 
     }
+
+
 }
